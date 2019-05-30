@@ -1,0 +1,203 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui" template="/template/modelo.xhtml">
+
+	<h:body>
+		<h:outputStylesheet library="css" name="style.css" />
+	</h:body>
+
+	<style type="text/css">
+.logo {
+	width: 5%
+}
+
+.detail {
+	width: 95%;
+	padding-left: 25px;
+}
+
+.detail td {
+	font-size: 12px;
+}
+
+.detail p {
+	margin-right: 80%;
+}
+</style>
+
+	<ui:define name="plataforma">
+		<h:form id="formPlataforma">
+
+			<p:menubar model="#{plataformaBean.menuModel}" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="formUpload">
+			<p:repeat var="jogo" value="#{jogoBean.jogos}">
+				<p:panel header="#{jogo.tituloJogo}">
+
+					<div>
+						<h:outputText value="#{jogo.dataADDDoJogo}">
+							<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</div>
+					<div>
+						<h:panelGrid columns="2" columnClasses="logo, detail">
+							<p:graphicImage value="#{jogoBean.conteudoImage}" width="200px;"
+								height="200px" title="#{jogo.tituloJogo}">
+								<f:param value="#{jogo.imagem.id}" name="jogoImagem" />
+							</p:graphicImage>
+							<p:outputPanel>
+								<h:panelGrid columns="2" cellpadding="4">
+									<h:outputText value="Ficha Técnica" style="font-weight: bold;" />
+									<br />
+
+									<h:outputText value="Lançamento:" style="font-weight: bold;" />
+									<h:outputText value="#{jogo.dataDeLançamento}">
+										<f:convertDateTime locale="pt_BR" pattern="yyyy" />
+									</h:outputText>
+
+									<h:outputText value="Formato:" style="font-weight: bold;" />
+									<h:outputText value="#{jogo.formatoJogo}" />
+
+									<h:outputText value="Tamanho:" style="font-weight: bold;" />
+									<h:outputText value=" #{jogo.tamanhoJogo}" />
+
+									<h:outputText value="Crack:" style="font-weight: bold;" />
+									<h:outputText value="#{jogo.crackFormatado()}"
+										style="color: red;" />
+
+
+									<h:outputText value="Plataforma:" style="font-weight: bold;" />
+									<h:outputText value="#{jogo.plataforma.tipoPlataforma}" />
+
+									<h:outputText value="Idioma:" style="font-weight: bold;" />
+									<ui:repeat var="idioma" value="#{jogo.idiomas}">
+										<h:outputText value="#{idioma.nomeIdioma} " />
+									</ui:repeat>
+
+									<h:outputText value="Gênero:" style="font-weight: bold;" />
+									<ui:repeat var="genero" value="#{jogo.generos}">
+										<h:outputText value="#{genero.tipoGenero.tipoGenero} " />
+									</ui:repeat>
+								</h:panelGrid>
+							</p:outputPanel>
+						</h:panelGrid>
+					</div>
+
+					<h:panelGrid style="text-align: justify;">
+						<h:panelGroup>
+							<h:outputText value="Sinopse: " style="font-weight: bold;" />
+							<h:outputText value="#{jogo.sinopse}" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+					<br />
+					<h:panelGrid columns="1">
+						<p:commandButton value="Ler mais"
+							oncomplete="PF('datalheJogo').show();"
+							update=":formExibir:panelExibir"
+							actionListener="#{jogoBean.mostraJogo}">
+							<f:attribute name="jogoSelecionado" value="#{jogo}" />
+						</p:commandButton>
+					</h:panelGrid>
+				</p:panel>
+				<p:separator />
+
+			</p:repeat>
+
+
+		</h:form>
+
+		<p:dialog modal="false" closable="true" minWidth="150" minHeight="100"
+			maximizable="true" minimizable="true" widgetVar="datalheJogo"
+			resizable="true" appendTo="@(body)" width="1000" height="500"
+			responsive="true" position="center top">
+			<h:form id="formExibir">
+				<p:panel header="#{jogoBean.jogo.tituloJogo}" id="panelExibir">
+					<h:panelGrid columns="2" columnClasses="logo, detail" id="panel">
+						<p:graphicImage value="#{jogoBean.conteudoImage}" width="200px;"
+							height="200px" title="#{jogo.tituloJogo}">
+							<f:param value="#{jogoBean.jogo.imagem.id}" name="jogoImagem" />
+						</p:graphicImage>
+						<p:outputPanel>
+							<h:panelGrid columns="2" cellpadding="4">
+								<h:outputText value="Ficha Técnica" style="font-weight: bold;" />
+								<br />
+
+								<h:outputText value="Lançamento:" style="font-weight: bold;" />
+								<h:outputText value="#{jogoBean.jogo.dataDeLançamento}">
+									<f:convertDateTime locale="pt_BR" pattern="yyyy" />
+								</h:outputText>
+
+								<h:outputText value="Formato:" style="font-weight: bold;" />
+								<h:outputText value="#{jogoBean.jogo.formatoJogo}" />
+
+								<h:outputText value="Tamanho:" style="font-weight: bold;" />
+								<h:outputText value=" #{jogoBean.jogo.tamanhoJogo}" />
+
+								<h:outputText value="Crack:" style="font-weight: bold;" />
+								<h:outputText value="#{jogo.crackFormatado()}" />
+
+								<h:outputText value="Plataforma:" style="font-weight: bold;" />
+								<h:outputText value="#{jogoBean.jogo.plataforma.tipoPlataforma}" />
+
+								<h:outputText value="Idioma:" style="font-weight: bold;" />
+								<ui:repeat var="idioma" value="#{jogoBean.jogo.idiomas}">
+									<h:outputText value="#{idioma.nomeIdioma} " />
+								</ui:repeat>
+
+								<h:outputText value="Gênero:" style="font-weight: bold;" />
+								<ui:repeat var="genero" value="#{jogoBean.jogo.generos}">
+									<h:outputText value="#{genero.tipoGenero.tipoGenero} " />
+								</ui:repeat>
+							</h:panelGrid>
+						</p:outputPanel>
+					</h:panelGrid>
+
+					<h:panelGrid style="text-align: justify;" columns="1"
+						cellpadding="2">
+						<h:panelGroup>
+							<h:outputText value="Sinopse: " style="font-weight: bold;" />
+							<h:outputText value="#{jogoBean.jogo.sinopse}" />
+						</h:panelGroup>
+					</h:panelGrid>
+
+					<div class="centralizar">
+						<p>
+							<strong> Requisitos de sistema mínimos: </strong>
+						</p>
+
+						<p>SO: #{jogoBean.jogo.especificacao.sistemaOperacional}</p>
+
+						<p>Processador: #{jogoBean.jogo.especificacao.processador}</p>
+						<p>Memória: #{jogoBean.jogo.especificacao.memoriaRam}</p>
+						<p>Placa de vídeo: #{jogoBean.jogo.especificacao.placaDeVideo}</p>
+						<p>Directx: #{jogoBean.jogo.especificacao.directx}</p>
+						<p>Armazenamento:
+							#{jogoBean.jogo.especificacao.armazenamentoHD}</p>
+						<p>Placa de som: #{jogoBean.jogo.especificacao.placaDeSom}</p>
+
+						<c:if test="#{jogoBean.jogo.especificacao.observacoes != null }">
+							<p>Observações: #{jogoBean.jogo.especificacao.observacoes}</p>
+						</c:if>
+
+					</div>
+
+				</p:panel>
+
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+
+</ui:composition>

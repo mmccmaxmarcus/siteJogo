@@ -1,0 +1,12 @@
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 98%;
+}
+
+.button {
+	float: right;
+}
+
+.centralizar {
+	text-align: center;
+	padding: 5px 5px 5px 5px;
+}

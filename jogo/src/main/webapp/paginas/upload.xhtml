@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Upload</title>
+</h:head>
+
+<h:body>
+	<h:form enctype="multipart/form-data">
+		<p:fileUpload value="#{uploadManagedBean.uploadedFile}" mode="simple"
+			allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"
+			fileLimit="1" fileLimitMessage="Adicione apenas um arquivo por vez"
+			update=":msg" />
+		<p:commandButton actionListener="#{uploadManagedBean.upload}"
+			value="Upload" ajax="false" />
+	</h:form>
+
+</h:body>
+</html>

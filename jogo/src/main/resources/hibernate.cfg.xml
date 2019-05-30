@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.enable_lazy_load_no_trans">true</property>
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jogo?serverTimezone=UTC</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">StaSte8w742123</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="connection.pool_size">5</property>
+		<!-- Gerenciamento da sessão -->
+		<property name="current_session_context_class">thread</property>
+
+		<property name="hbm2ddl.auto">update</property>
+
+		<property name="show_sql">true</property>
+
+
+		<mapping class="entities.Genero" />
+		<mapping class="entities.Idioma" />
+		<mapping class="entities.Jogo" />
+		<mapping class="entities.Plataforma" />
+		<mapping class="entities.Imagem" />
+		<mapping class="entities.GeneroTipo" />
+		<mapping class="entities.Especificacao" />
+		<mapping class="entities.Screenshot" />
+		
+		
+		
+		
+
+
+
+
+	</session-factory>
+
+</hibernate-configuration>
