@@ -12,12 +12,30 @@
 
 <h:body>
 	<h:form enctype="multipart/form-data">
+		<h:panelGrid columns="2">
+
+			<p:outputLabel for="screen" value="Adicionar Imagem" />
+			<p:selectOneMenu id="screen"
+				value="#{uploadManagedBean.screenshot.imagem}"
+				converter="omnifaces.SelectItemsConverter" filter="true">
+				<f:selectItem noSelectionOption="true"
+					itemLabel="Selecione uma imagem" />
+				<f:selectItems value="#{uploadManagedBean.imagens}" var="imagem"
+					itemValue="#{imagem}" itemLabel="#{imagem.nomeArquivo}"/>
+
+			</p:selectOneMenu>
+		</h:panelGrid>
+
+
 		<p:fileUpload value="#{uploadManagedBean.uploadedFile}" mode="simple"
 			allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"
 			fileLimit="1" fileLimitMessage="Adicione apenas um arquivo por vez"
 			update=":msg" />
-		<p:commandButton actionListener="#{uploadManagedBean.upload}"
-			value="Upload" ajax="false" />
+		<p:commandButton
+			actionListener="#{uploadManagedBean.uploadScreenshot}" value="Upload"
+			ajax="false" update=":msg"/>
+
+
 	</h:form>
 
 </h:body>

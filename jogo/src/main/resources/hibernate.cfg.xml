@@ -14,7 +14,7 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		
 		<!-- JDBC connection pool (use the built-in) -->
-		<property name="connection.pool_size">5</property>
+		<property name="connection.pool_size">1</property>
 		<!-- Gerenciamento da sessão -->
 		<property name="current_session_context_class">thread</property>
 

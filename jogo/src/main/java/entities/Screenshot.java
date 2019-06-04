@@ -23,8 +23,8 @@ public class Screenshot implements Serializable {
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(nullable = true, name = "imagem_id")
-	private Imagem imagem;
+	@JoinColumn(nullable = true, name = "jogo_id")
+	private Jogo jogo;
 
 	@Column(nullable = false)
 	@Lob
@@ -37,9 +37,9 @@ public class Screenshot implements Serializable {
 
 	}
 
-	public Screenshot(Imagem imagem, byte[] imagemScreenshot, String nomeArquivoScreenshot) {
+	public Screenshot(Jogo jogo, byte[] imagemScreenshot, String nomeArquivoScreenshot) {
 		super();
-		this.imagem = imagem;
+		this.jogo = jogo;
 		this.imagemScreenshot = imagemScreenshot;
 		this.nomeArquivoScreenshot = nomeArquivoScreenshot;
 	}
@@ -54,12 +54,12 @@ public class Screenshot implements Serializable {
 		return id;
 	}
 
-	public Imagem getImagem() {
-		return imagem;
+	public Jogo getJogo() {
+		return jogo;
 	}
 
-	public void setImagem(Imagem imagem) {
-		this.imagem = imagem;
+	public void setImagem(Jogo jogo) {
+		this.jogo = jogo;
 	}
 
 	public byte[] getImagemScreenshot() {

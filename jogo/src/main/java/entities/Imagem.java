@@ -31,9 +31,7 @@ public class Imagem implements Serializable {
 	@Column(nullable = true, length = 250)
 	private String nomeArquivo;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "imagem", cascade = CascadeType.ALL)
-	private List<Screenshot> screenshorts;
-
+	
 	public Imagem() {
 
 	}
@@ -63,13 +61,6 @@ public class Imagem implements Serializable {
 		return id;
 	}
 
-	public List<Screenshot> getScreenshorts() {
-		return screenshorts;
-	}
-
-	public void setScreenshorts(List<Screenshot> screenshorts) {
-		this.screenshorts = screenshorts;
-	}
 	
 	
 

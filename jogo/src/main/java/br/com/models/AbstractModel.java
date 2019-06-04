@@ -3,9 +3,14 @@ package br.com.models;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import br.com.HibernateUtil.HibernateUtil;
 
@@ -86,7 +91,7 @@ public abstract class AbstractModel<T> {
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-            session.update(entity);
+			session.update(entity);
 			transaction.commit();
 
 		} catch (Exception e) {
@@ -95,11 +100,11 @@ public abstract class AbstractModel<T> {
 				transaction.rollback();
 			}
 		} finally {
-           session.close();
+			session.close();
 		}
 		return result;
 	}
-	
+
 	public boolean delete(T entity) {
 		boolean result = true;
 		Session session = null;
@@ -107,7 +112,7 @@ public abstract class AbstractModel<T> {
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-            session.delete(entity);
+			session.delete(entity);
 			transaction.commit();
 
 		} catch (Exception e) {
@@ -116,8 +121,34 @@ public abstract class AbstractModel<T> {
 				transaction.rollback();
 			}
 		} finally {
-           session.close();
+			session.close();
 		}
 		return result;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<T> contains(String keyword, String atributo) {
+		Session session = null;
+		Transaction transaction = null;
+		List<T> entities;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Query query = session
+					.createQuery("from " + entity.getName() + " where " + atributo + " like :keyword");
+			query.setParameter("keyword", "%" + keyword + "%");
+			entities = query.getResultList();
+			transaction.commit();
+
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+		return entities;
+
 	}
 }

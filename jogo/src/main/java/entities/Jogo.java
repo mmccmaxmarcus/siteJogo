@@ -64,6 +64,9 @@ public class Jogo implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "jogo", cascade = CascadeType.ALL)
 	private List<Idioma> idiomas;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "jogo", cascade = CascadeType.ALL)
+	private List<Screenshot> screenshots;
+
 	@Column(length = 20000, nullable = false)
 	private String sinopse;
 
@@ -203,6 +206,14 @@ public class Jogo implements Serializable {
 
 	public void setEspecificacao(Especificacao especificacao) {
 		this.especificacao = especificacao;
+	}
+
+	public List<Screenshot> getScreenshots() {
+		return screenshots;
+	}
+
+	public void setScreenshots(List<Screenshot> screenshots) {
+		this.screenshots = screenshots;
 	}
 
 }

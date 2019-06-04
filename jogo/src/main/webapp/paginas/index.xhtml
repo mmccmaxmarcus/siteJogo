@@ -9,11 +9,10 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:o="http://omnifaces.org/ui" template="/template/modelo.xhtml">
 
-	<h:body>
+	<h:head>
 		<h:outputStylesheet library="css" name="style.css" />
-	</h:body>
 
-	<style type="text/css">
+		<style type="text/css">
 .logo {
 	width: 5%
 }
@@ -31,22 +30,59 @@
 	margin-right: 80%;
 }
 </style>
+	</h:head>
+	
+	<ui:define name="metadata">
+	
+	</ui:define>
+
 
 	<ui:define name="plataforma">
 		<h:form id="formPlataforma">
 
-			<p:menubar model="#{plataformaBean.menuModel}" />
+			<p:menubar id="menubar">
+
+				<p:menuitem value="INICIO"
+					outcome="/paginas/index.xhtml?faces-redirect=true"
+					style="padding:15px 5px 5px 5px;" />
+				<p:submenu label="PC" style="padding:10px 5px 5px 10px;">
+					<c:forEach items="${plataformaBeanBeta.generosPC}" var="itemGenero">
+						<p:menuitem value="#{itemGenero} (PC)"
+							actionListener="#{jogoBean.recebeGeneroParaListagem}"
+							update=":formUpload :formExibir:panelExibir">
+							<f:attribute value="#{itemGenero}" name="item" />
+						</p:menuitem>
+					</c:forEach>
+				</p:submenu>
+
+				<p:submenu label="PS2" style="padding:10px 5px 5px 10px;">
+
+				</p:submenu>
+
+
+				<p:submenu label="PS3" style="padding:10px 5px 5px 10px;">
+
+				</p:submenu>
+
+
+				<p:submenu label="PS4" style="padding:10px 5px 5px 10px;">
+
+				</p:submenu>
+			</p:menubar>
 		</h:form>
 	</ui:define>
 
 	<ui:define name="conteudo">
+
+
 		<h:form id="formUpload">
-			<p:repeat var="jogo" value="#{jogoBean.jogos}">
+			<p:repeat var="jogo" value="#{jogoBean.jogosSelecionadosOuNao}">
 				<p:panel header="#{jogo.tituloJogo}">
 
 					<div>
 						<h:outputText value="#{jogo.dataADDDoJogo}">
-							<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
+							<f:convertDateTime locale="pt_BR"
+								pattern="dd 'de' MMMM 'de' yyyy" />
 						</h:outputText>
 					</div>
 					<div>
@@ -104,7 +140,7 @@
 					<h:panelGrid columns="1">
 						<p:commandButton value="Ler mais"
 							oncomplete="PF('datalheJogo').show();"
-							update=":formExibir:panelExibir"
+							update=":formExibir:panelExibir :formPlataforma:menubar"
 							actionListener="#{jogoBean.mostraJogo}">
 							<f:attribute name="jogoSelecionado" value="#{jogo}" />
 						</p:commandButton>
@@ -120,7 +156,7 @@
 		<p:dialog modal="false" closable="true" minWidth="150" minHeight="100"
 			maximizable="true" minimizable="true" widgetVar="datalheJogo"
 			resizable="true" appendTo="@(body)" width="1000" height="500"
-			responsive="true" position="center top">
+			responsive="true" position="center top" header="MAX GAMES TORRENT" >
 			<h:form id="formExibir">
 				<p:panel header="#{jogoBean.jogo.tituloJogo}" id="panelExibir">
 					<h:panelGrid columns="2" columnClasses="logo, detail" id="panel">
@@ -191,6 +227,27 @@
 						</c:if>
 
 					</div>
+					<br />
+
+						<div align="center">
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<div align="center">
+										<p>
+											<strong> Screenshots: </strong>
+										</p>
+									</div>
+									<p:imageSwitch effect="fade" slideshowSpeed="5000"
+										slideshowAuto="true">
+										<ui:repeat var="screen" value="#{jogoBean.jogo.screenshots}">
+											<p:graphicImage value="#{jogoBean.screenImage}">
+												<f:param name="screenImagem" value="#{screen.id}" />
+											</p:graphicImage>
+										</ui:repeat>
+									</p:imageSwitch>
+								</h:panelGroup>
+							</h:panelGrid>
+						</div>
 
 				</p:panel>
 

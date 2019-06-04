@@ -32,7 +32,6 @@ public class CRUDTest {
 	EspecificacaoModel especificacaoModel;
 	List<Especificacao> especificacoes;
 	
-	
 	@Test
 	@Ignore
 	public void createEspecificacao() {
@@ -162,12 +161,23 @@ public class CRUDTest {
 	
 
 	@Test
-	@Ignore
 	public void buscaGeneros() {
 		generoModel = new GeneroModel();
 		plataformaModel = new PlataformaModel();
 		List<String>generos = plataformaModel.buscarPorGenero(1);
-		System.out.println(generos);
+		System.out.println(generos.toString());
+	}
+	
+	@Test
+	@Ignore
+	public void buscarGeneroNome() {
+		generoModel = new GeneroModel();
+		List<Genero> generos = generoModel.contains("te", "tipoGenero.tipoGenero" );
+		for (Genero g : generos) {
+			System.out.println(g.getJogo().getTituloJogo());
+		}
+		
+		
 	}
 
 }
