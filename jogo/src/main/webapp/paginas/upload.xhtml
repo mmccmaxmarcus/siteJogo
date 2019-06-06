@@ -7,36 +7,137 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Upload</title>
+	<title>Adicionar jogo</title>
+	<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+
+.button {
+	float: right;
+}
+</style>
 </h:head>
 
 <h:body>
-	<h:form enctype="multipart/form-data">
-		<h:panelGrid columns="2">
+	<p:growl id="msg" sticky="true" showDetail="true" life="500" />
 
-			<p:outputLabel for="screen" value="Adicionar Imagem" />
-			<p:selectOneMenu id="screen"
-				value="#{uploadManagedBean.screenshot.imagem}"
-				converter="omnifaces.SelectItemsConverter" filter="true">
-				<f:selectItem noSelectionOption="true"
-					itemLabel="Selecione uma imagem" />
-				<f:selectItems value="#{uploadManagedBean.imagens}" var="imagem"
-					itemValue="#{imagem}" itemLabel="#{imagem.nomeArquivo}"/>
+	<h:form>
+		<p:wizard flowListener="#{adicionaDadosBean.onFlowProcess}"
+			nextLabel="Avançar" backLabel="Anterior" style="padding: 10px;">
+			<p:tab id="especificacoesJogo" title="Especificação">
+				<p:panel header="Adicionar especificações do jogo" toggleable="true">
+					<p:messages />
+					<h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText value="Armazenamento HD/SSD: " />
+						<p:inputText
+							value="#{adicionaDadosBean.especificacao.armazenamentoHD}" />
 
-			</p:selectOneMenu>
-		</h:panelGrid>
+						<h:outputText value="Memória RAM: " />
+						<p:inputText value="#{adicionaDadosBean.especificacao.memoriaRam}" />
 
+						<h:outputText value="Directx: " />
+						<p:inputText value="#{adicionaDadosBean.especificacao.directx}" />
 
-		<p:fileUpload value="#{uploadManagedBean.uploadedFile}" mode="simple"
-			allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"
-			fileLimit="1" fileLimitMessage="Adicione apenas um arquivo por vez"
-			update=":msg" />
-		<p:commandButton
-			actionListener="#{uploadManagedBean.uploadScreenshot}" value="Upload"
-			ajax="false" update=":msg"/>
+						<h:outputText value="Placa de vídeo: " />
+						<p:inputText
+							value="#{adicionaDadosBean.especificacao.placaDeVideo}" />
 
+						<h:outputText value="Placa de Som: " />
+						<p:inputText value="#{adicionaDadosBean.especificacao.placaDeSom}" />
 
+						<h:outputText value="Processador: " />
+						<p:inputText
+							value="#{adicionaDadosBean.especificacao.processador}" />
+
+						<h:outputText value="S. Operacional: " />
+						<p:inputText
+							value="#{adicionaDadosBean.especificacao.sistemaOperacional}" />
+
+						<h:outputText value="Observações: " />
+						<p:inputTextarea
+							value="#{adicionaDadosBean.especificacao.directx}"
+							autoResize="false" rows="8" cols="40" />
+					</h:panelGrid>
+
+				</p:panel>
+			</p:tab>
+
+			<p:tab id="plataformaJogo" title="Plataforma e Imagem">
+				<p:panel header="Adicionar plataforma" toggleable="true">
+					<p:messages />
+					<h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText value="Inserir plataforma: " />
+						<p:commandButton value="Inserir" title="Inserir plataforma"
+							oncomplete="PF('inserePlataforma').show();"
+							update=":formDlg:pnlPltforma" />
+
+					</h:panelGrid>
+				</p:panel>
+<br />
+				<p:panel header="Adicionar Imagem" toggleable="true">
+					<p:messages />
+					<h:panelGrid columns="1" columnClasses="label, value">
+						<p:fileUpload
+							fileUploadListener="#{adicionaDadosBean.uploadImagem}"
+							mode="simple" dragDropSupport="false" update=":msg"
+							sizeLimit="1000000" fileLimit="1"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true"
+							requiredMessage="Imagem do jogo deve ser adicionada "
+							label="Adicionar" auto="false" uploadLabel="Salvar"  />
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>/
+		</p:wizard>
 	</h:form>
+
+	<p:dialog header="Inserir Plataforma" widgetVar="inserePlataforma"
+		position="center" closable="true" maximizable="false"
+		minimizable="false" closeOnEscape="true" width="200px;"
+		resizable="false">
+		<h:form id="formDlg">
+			<p:panel header="Plataforma" id="pnlPltforma" style="width: 400px;">
+				<h:panelGrid columns="2" columnClasses="label, value">
+					<h:outputText value="Plataforma: " />
+					<p:inputText value="#{adicionaDadosBean.plataforma.tipoPlataforma}"
+						required="true"
+						requiredMessage="Preencha os dados ou então plataforma ja está na base de dados" />
+				</h:panelGrid>
+
+
+				<div align="right">
+					<p:commandButton value="Salvar"
+						actionListener="#{adicionaDadosBean.salvarPlataforma}"
+						title="Salvar Especificação" update=":msg"
+						oncomplete="PF('inserePlataforma').hide()" />
+				</div>
+			</p:panel>
+		</h:form>
+
+	</p:dialog>
 
 </h:body>
 </html>

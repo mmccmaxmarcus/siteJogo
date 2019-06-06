@@ -23,7 +23,7 @@ public class Plataforma implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 
-	@Column(length = 50, nullable = false)
+	@Column(length = 50, nullable = false, unique = true)
 	private String tipoPlataforma;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plataforma", cascade = CascadeType.ALL)

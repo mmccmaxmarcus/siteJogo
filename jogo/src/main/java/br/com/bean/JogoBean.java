@@ -21,6 +21,7 @@ import br.com.models.GeneroModel;
 import br.com.models.ImagemModel;
 import br.com.models.JogoModel;
 import br.com.models.ScreenshotModel;
+import entities.Especificacao;
 import entities.Genero;
 import entities.Imagem;
 import entities.Jogo;
@@ -35,6 +36,16 @@ public class JogoBean implements Serializable {
 	private Jogo jogo;
 	private List<Genero> generos;
 	private List<Jogo> jogosSelecionadosOuNao;
+	private Jogo adicionaJogo;
+
+
+	public Jogo getAdicionaJogo() {
+		return adicionaJogo;
+	}
+
+	public void setAdicionaJogo(Jogo adicionaJogo) {
+		this.adicionaJogo = adicionaJogo;
+	}
 
 	public List<Jogo> getJogosSelecionadosOuNao() {
 		return jogosSelecionadosOuNao;
@@ -120,21 +131,21 @@ public class JogoBean implements Serializable {
 
 	public void recebeGeneroParaListagem(ActionEvent event) {
 		try {
-			String genero = null; 
+			String genero = null;
 			genero = (String) event.getComponent().getAttributes().get("item");
-			
+
 			if (genero.isEmpty() || genero.equals(null)) {
 				genero = null;
 				list();
-			}else {
-				list(genero);	
+			} else {
+				list(genero);
 			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	@PostConstruct
 	public void list() {
 		this.jogosSelecionadosOuNao = new ArrayList<>();
@@ -155,14 +166,14 @@ public class JogoBean implements Serializable {
 		this.jogosSelecionadosOuNao = new ArrayList<>();
 		try {
 			this.generos = getGeneroModel().contains(genero, "tipoGenero.tipoGenero");
-			
-				for (Genero g : this.generos) {
-					this.jogosSelecionadosOuNao.add(g.getJogo());
-				}
 
-				for (Jogo jogo : this.jogosSelecionadosOuNao) {
-					System.out.println(jogo.getTituloJogo());
-				}
+			for (Genero g : this.generos) {
+				this.jogosSelecionadosOuNao.add(g.getJogo());
+			}
+
+			for (Jogo jogo : this.jogosSelecionadosOuNao) {
+				System.out.println(jogo.getTituloJogo());
+			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 

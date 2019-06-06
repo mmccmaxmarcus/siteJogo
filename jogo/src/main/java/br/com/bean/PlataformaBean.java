@@ -17,9 +17,19 @@ import entities.Plataforma;
 @SuppressWarnings("serial")
 @ManagedBean(name = "plataformaBeanBeta")
 @RequestScoped
-public class PlataformaBeanBeta implements Serializable {
+public class PlataformaBean implements Serializable {
 	private List<String> generosPC;
 	private List<Plataforma> plataformas;
+	private Plataforma adicionaPlataforma;
+	
+	
+	public Plataforma getAdicionaPlataforma() {
+		return adicionaPlataforma;
+	}
+	
+	public void setAdicionaPlataforma(Plataforma adicionaPlataforma) {
+		this.adicionaPlataforma = adicionaPlataforma;
+	}
 	
 	
 
